@@ -1,0 +1,20 @@
+[build-system]
+build-backend = "mesonpy"
+requires = [
+  "meson>=1.5.0",          # The Meson build system itself to coordinate the compilation of code.
+  "ninja>=1.11.0",         # The ninja build system used to compile code
+  "meson-python>=0.16.0",  # A PEP 517 backend for building Python packages with Meson.
+]
+
+[project]
+name = "lightnumpy"
+dynamic = ["version"]  # The version is determined dynamically, inside meson.build
+description = "A lightweight library for array operations with CPU, GPU, and TPU support."
+readme = "README.md"
+# TODO: add `license-files` once PEP 639 is accepted (see meson-python#88)
+# at that point, no longer include them in `py3.install_sources()`
+license = {file = "LICENSE"}
+authors = [
+    # {name = "Your Name", email = "your.email@example.com"}
+]
+requires-python = ">=3.8"

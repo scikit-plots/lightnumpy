@@ -1,0 +1,4 @@
+[submodule "lightnumpy/cpp_core/NumCpp"]
+	path = lightnumpy/cpp_core/NumCpp
+	url = https://github.com/scikit-plots/NumCpp.git
+	branch = gh_numcpp

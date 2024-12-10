@@ -1,10 +1,27 @@
-# lightnumpy
+# LightNumPy
+
+**Lightweight and Fast Numerical Computing Library for Python**
 
 A lightweight version of NumPy (or similar functionality).
 
-## Project Structure
+Install `lightnumpy` using `pip`:
+
+```bash
+# Placeholder, Not Implemented
+pip install lightnumpy
+```
 
 ---
+
+## Why LightNumPy?
+- **Performance-Driven**: Optimized for both CPU and hardware accelerators (GPU/TPU).
+- **Focused**: Includes essential features without unnecessary overhead.
+- **Adaptable**: Modular structure for customized extensions.
+- **Scalable**: Ideal for IoT, embedded systems, and resource-limited devices.
+
+---
+
+## Project Structure
 
 ```sh
 lightnumpy/  
@@ -104,3 +121,18 @@ touch docs/index.md
 mkdir examples
 touch examples/{array_example.py,tensor_example.py,gpu_example.py,tpu_example.py}
 ```
+---
+
+## FAQs
+
+#### Q: How does lightnumpy differ from numpy?
+A: While numpy is a full-featured numerical library, lightnumpy is a lightweight version, designed to be faster and more efficient for specific use cases. It focuses on essential features, leaving out less commonly used ones.
+
+#### Q: Is lightnumpy compatible with numpy?
+
+A: For most common operations, yes! It provides a familiar API to help you transition smoothly.
+
+#### Q: Can I use lightnumpy for GPU/TPU tasks?
+
+A: Absolutely! lightnumpy has built-in support for hardware accelerators.
+

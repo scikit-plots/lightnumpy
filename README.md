@@ -6,6 +6,7 @@ A lightweight version of NumPy (or similar functionality).
 
 ---
 
+```sh
 lightnumpy/  
 │  
 ├── lightnumpy/                  # Core library source code  
@@ -14,7 +15,7 @@ lightnumpy/
 │   │   ├── __init__.py          # API entry point for `python_api`  
 │   │   ├── array.py             # Array class implementation and basic methods
 │   │   ├── core.py              # Contains core array functionality
-│   │   ├── linalg.py            # Basic linear algebra operations (e.g., dot, transpose) 
+│   │   ├── linalg.py            # Basic linear algebra operations (e.g., dot, transpose)
 │   │   ├── operations.py        # Element-wise operations (e.g., addition, multiplication) (CPU, GPU, TPU)  
 │   │   ├── gpu_operations.py    # GPU-specific Python operations  
 │   │   ├── tpu_operations.py    # TPU-specific Python operations  
@@ -81,6 +82,7 @@ lightnumpy/
 ├── pyproject.toml               # Python project configuration  
 ├── setup.cfg                    # Optional Python packaging configuration  
 └── README.md                    # Project overview  
+```
 
 
 ---

@@ -3,6 +3,13 @@
 **Lightweight and Fast Numerical Computing Library for Python**
 
 A lightweight version of NumPy (or similar functionality).
+- Install spesific/latest version by `GITHUB` use `<branches>` or `<tags>`
+
+```bash
+#pip install git+https://github.com/scikit-plots/lightnumpy.git@<branches>
+pip install git+https://github.com/scikit-plots/lightnumpy.git@main
+pip install git+https://github.com/scikit-plots/lightnumpy.git@maintenance/0.0.x
+```
 
 Install `lightnumpy` using `pip`:
 
@@ -19,6 +26,9 @@ pip install lightnumpy
 - **Adaptable**: Modular structure for customized extensions.
 - **Scalable**: Ideal for IoT, embedded systems, and resource-limited devices.
 
+## See Also
+- https://scikit-plots.github.io/stable/api/scikitplot._numcpp_api.html
+  
 ---
 
 ## LightNumPy Project Structure

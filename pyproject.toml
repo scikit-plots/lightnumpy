@@ -14,6 +14,8 @@ requires = [
   # disabling build isolation.
   "numpy>=2.1.0",
   # Add other dependencies here if needed
+  "pythran>=0.14.0",
+  "scipy>=1.6.0",
 ]
 
 [project]

@@ -15,6 +15,7 @@ Example Usage:
 >>> print(result)
 [4.0, 6.0]
 """
+# Template: Implement TPU-specific operations.
 
 from typing import List
 

@@ -15,6 +15,7 @@ Example Usage:
 >>> print(result)
 [4, 6]
 """
+# Template: Define core functionality for array manipulation.
 
 from typing import List
 

@@ -26,10 +26,42 @@ See Also:
 - NumPy: https://numpy.org/
 """
 
-__version__ = '0.1.0'
+# Authors: The scikit-plots developers
+# SPDX-License-Identifier: BSD-3-Clause
 
-# from .python_api import (
-# 	core,
-# 	gpu_operations,
-# 	tpu_operations,
-# )
+__version__ = '0.0.1dev0'
+
+import os
+import sys
+import pathlib
+import warnings
+
+try:
+  from lightnumpy.__config__ import show as show_config
+except (ImportError, ModuleNotFoundError) as e:
+  msg = (
+    "Error importing lightnumpy:\n"
+    "Cannot import lightnumpy while being in lightnumpy source directory\n"
+    "please exit the lightnumpy source tree first and\n"
+    "relaunch your Python interpreter."
+  )
+  # raise ImportError(msg) from e    
+  # log.error('BOOM! :: %s', msg)
+  # sys.stderr.write('BOOM! :: %s\n' % msg)
+  
+  show_config = _BUILT_WITH_MESON = None;  del msg;
+else:
+  _BUILT_WITH_MESON = True
+
+if _BUILT_WITH_MESON:
+  from .cy_bindings import cy_numcpp_api; #del cy_bindings;
+  from .py_bindings import py_numcpp_api; #del py_bindings;
+
+
+from .python_api import *; del python_api;
+
+# Remove symbols imported for internal use
+del (
+  os, sys, pathlib, warnings,
+  List, Tuple,
+)

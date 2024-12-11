@@ -1,0 +1,1 @@
+// Template: Provide C bindings to the library using Python.h.

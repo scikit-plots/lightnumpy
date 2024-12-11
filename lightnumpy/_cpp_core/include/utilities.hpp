@@ -1,0 +1,1 @@
+// Template: Declare helper functions for tensor operations.

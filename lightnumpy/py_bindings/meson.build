@@ -1,0 +1,93 @@
+######################################################################
+## cython tree
+######################################################################
+
+# Copy the main "__init__.py"|"*.pxd" files to the build dir (needed for Cython)
+# The Cython files that need to be processed, including dependencies and includes
+py_bindings_cython_tree = [
+  # `_cython_tree` should have been defined earlier in the build script
+  # to make sure scikitplot/__init__.py is copied
+  _cython_tree,
+  fs.copyfile('__init__.py'),  # Ensure __init__.py is copied early
+]
+
+######################################################################
+## Include the Headers directories for bindings
+######################################################################
+
+# include directories for Specific Subfolders
+py_bindings_inc_dir = [
+  'src',
+  'include',
+]
+
+######################################################################
+## Define include_directories for _c_core, NumCpp
+######################################################################
+
+# Use the include directory in your build setup
+# Specify Include directories where your headers are located
+# include_directories(header) -> static_library(mix), library(mix), declare_dependency(mix)
+inc_dir_py_bindings = include_directories(
+  py_bindings_inc_dir
+)
+# Optionally add a message to confirm the installation
+message(
+  '\npy_bindings module compatibility files defined successfully: ' +
+  '@0@ '.format('lightnumpy/py_bindings/include') +
+  'with NumCpp: @0@'.format(get_option('numcpp').enabled())
+)
+
+######################################################################
+## Define dependencies and Compiler Flags
+######################################################################
+
+# Define dependencies with NumCpp
+dep_list = [dep_py, dep_pybind11, dep_np, dep_cpp_core]
+
+######################################################################
+## extension metadata
+######################################################################
+
+# Define metadata for shared Cython files '.pyx' extensions targeting both C and C++
+py_bindings_extension_metadata = {
+  # Define Python Module Name
+  'py_numcpp_api':
+    {
+      'sources': [                                  # C++ source file with NumCpp + Pybind11 bindings
+        'src/py_numcpp_api.cpp',
+      ],
+      'include_directories': [                      # Include dirs for compilation
+        inc_dir_cpp_core, inc_dir_py_bindings
+      ],
+      'dependencies': dep_list,                     # External libraries and dependencies
+      'link_with': [],                              # Link with the created static library
+      'override_options': [
+        'cython_language=cpp',                      # Ensure Cython knows to generate C++ code
+        'optimization=3'                            # Optimization level '-O3'
+      ],
+      'c_args': cython_c_flags,                     # Additional C/C++ arguments
+      'cpp_args': cython_cpp_flags,                 # Additional C/C++ arguments
+      'install': true,                              # Whether to install the .so file executable after building
+      'subdir': 'lightnumpy/py_bindings',           # Path where the module is located
+    },
+}
+
+
+# Loop over each defined extension and create the corresponding module
+foreach ext_name, ext_dict : py_bindings_extension_metadata
+  pyext_module = py.extension_module(
+    ext_name,                                                      # The name of the extension module
+    ext_dict.get('sources') + py_bindings_cython_tree,             # Sources and dependencies
+    include_directories: ext_dict.get('include_directories', []),  # Include directories
+    dependencies: ext_dict.get('dependencies', []),                # Additional dependencies if any
+    link_with: ext_dict.get('link_with', []),                      # Libraries to link with
+    override_options : ext_dict.get('override_options', []),       # Options to override defaults
+    cython_args: ext_dict.get('cython_args', []),                  # Use Cython specific arguments if any
+    c_args: ext_dict.get('c_args', []),                            # Additional C compilation arguments
+    cpp_args: ext_dict.get('cpp_args', []),                        # Additional C++ compilation arguments
+    install: ext_dict.get('install', true),                        # Install the .so file this extension module
+    subdir: ext_dict.get('subdir', '.'),                           # Subdirectory where the .so file module will be placed
+    # install_dir: ext_dict.get('install_dir', '.'),               # Subdirectory where the .so file module will be installed
+  )
+endforeach

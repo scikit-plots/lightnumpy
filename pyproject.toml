@@ -5,7 +5,7 @@ requires = [
   "ninja>=1.11.0",         # The ninja build system used to compile code
   "meson-python>=0.16.0",  # A PEP 517 backend for building Python packages with Meson.
   "Cython>=3.0.10",
-  "pybind11==2.13.2",
+  "pybind11>=2.13.2",
   # numpy requirement for wheel builds for distribution on PyPI - building
   # against 2.x yields wheels that are also compatible with numpy 1.x at
   # runtime.

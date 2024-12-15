@@ -1,1 +1,0 @@
-// Template: Define structures or function declarations related to arrays in C.

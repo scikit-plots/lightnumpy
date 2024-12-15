@@ -3,7 +3,7 @@
 
 ## Include all Python files (these are included by default, but it's good practice to be explicit)
 ## Include all files in the package source code
-recursive-include scikitplot *
+recursive-include lightnumpy *
 
 ## Include specific files with particular extensions in a subdirectory
 #recursive-include assets *.png *.jpg *.svg

@@ -13,10 +13,18 @@ from libcpp.string cimport string
 # Import reusable code from the .pxi file, If Needed avoid duplicates
 # include "cy_numcpp_api.pxi"
 
-# Declare a function from NumCpp header
-cdef extern from "nc_version.cpp":
-    string numcpp_version()  # Declaration of the get_version function
+######################################################################
+## Standard headers implemented functions
+######################################################################
 
 # Declare external C++ functions
-cdef extern from "hello.cpp":
-    void printcpp(const char* message)  # Declaration of the print function
+cdef extern from "hello.c":
+    void cpp_char_to_print(const char* message)  # Declaration of the print function
+
+######################################################################
+## NumCpp Header implemented functions by LNPY_USE_NUMCPP
+######################################################################
+
+# Declare a function from NumCpp header
+cdef extern from "nc_version.cpp":
+    string get_numcpp_version()  # Declaration of the get_version function

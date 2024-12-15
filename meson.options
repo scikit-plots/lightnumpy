@@ -57,7 +57,7 @@ option('pythran', type: 'feature', value: 'auto',
                      'the implementation). ' + 
                      'A feature option has three states: "enabled", "disabled" or "auto".')
 # numcpp
-option('numcpp', type: 'feature', value: 'enabled',
+option('lnpy_use_numcpp', type: 'feature', value: 'enabled',
         description: 'If set to "disabled", disables using numcpp (it falls back ' +
                      'to either pure Python code or Cython code, depending on ' +
                      'the implementation).'  + 

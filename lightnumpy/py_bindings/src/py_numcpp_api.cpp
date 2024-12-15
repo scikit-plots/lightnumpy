@@ -5,25 +5,34 @@
 // You write your binding code directly in C++ using the Pybind11 API
 // to expose C++ functions and classes to Python.
 
+// Standard C++ library headers
+#include "hello.c"           // Include header or function prototypes if needed
+
+//////////////////////////////////////////////////////////////////////
+// pybind11 Header implemented functions
+//////////////////////////////////////////////////////////////////////
+
 #include <pybind11/pybind11.h>
-#include <pybind11/numpy.h> // For numpy array bindings
-#include <pybind11/stl.h>   // For STL bindings
+#include <pybind11/numpy.h>  // For numpy array bindings
+#include <pybind11/stl.h>    // For STL bindings
 namespace py = pybind11;
 
-#include "hello.cpp"        // Include header or function prototypes if needed
-#include "nc_version.cpp"   // Include for version
-#include "py_math.cpp"      // Include header or function prototypes if needed
+#include "py_math.cpp"       // Include header or function prototypes if needed
 
-#ifndef NUMCPP_NO_INCLUDE
-#include "py_nc_random.cpp"    // Include header or function prototypes if needed
+//////////////////////////////////////////////////////////////////////
+// NumCpp Header implemented functions by LNPY_USE_NUMCPP
+//////////////////////////////////////////////////////////////////////
 
-void numcpp_function(pybind11::module_ &m) {
-  // Add bindings here
-  // AdD More numcpp feature  
-  // Define module functions using a Function Pointer and a docstring
-  m.def("py_random_array",
+#include "nc_version.cpp"    // Include for version
+#include "py_nc_random.cpp"  // Include header or function prototypes if needed
+
+void numcpp_function(pybind11::module_ &m) {  
+// Add bindings here
+// Add More NumCpp feature  
+// Define module functions using a Function Pointer and a docstring
+m.def("py_random_array",
   &random_array,
-  R"(\
+  R"(
 Create a random NumCpp array.
 
 Parameters
@@ -50,26 +59,29 @@ Examples
 )"
   );
 }
-#endif  // NUMCPP_NO_INCLUDE
 
+//////////////////////////////////////////////////////////////////////
+// PYBIND11_MODULE "py_numcpp_api"
+//////////////////////////////////////////////////////////////////////
 
 // Expose the functions to Python Module using Pybind11
 // In practice, implementation and binding code will generally be located in separate files.
 // https://pybind11.readthedocs.io/en/stable/reference.html#c.PYBIND11_MODULE
 PYBIND11_MODULE(py_numcpp_api, m) {
-  m.doc() = 
-    R"(\
+m.doc() = 
+  R"(
 NumCpp API Python module that uses Pybind11 C/C++ for numerical computations.
 Created by Pybind11.
 )";
-  // optional module docstring  
-  // Add bindings here
-  // Define module functions using a Lambda Function and a docstring
-  m.def("py_print",
-    [](std::string message =
-      "Hello, from Pybind11 C++!") { printcpp(message); },
-    py::arg("message") = "Hello, from Pybind11 C++!",
-    R"(\
+
+// optional module docstring  
+// Add bindings here
+// Define module functions using a Lambda Function and a docstring
+m.def("py_print",
+  [](std::string message =
+    "Hello, from Pybind11 C++!") { cpp_str_to_print(message); },
+  py::arg("message") = "Hello, from Pybind11 C++!",
+  R"(\
 Prints a Unicode message.
 
 Parameters
@@ -91,13 +103,13 @@ Examples
 )"
   );
 
-  // Expose the VERSION constant to Python as a function that returns it
-  // Return the version string defined in Version.hpp
-  m.def("nc_version", []() { 
+// Expose the VERSION constant to Python as a function that returns it
+// Return the version string defined in Version.hpp
+m.def("nc_version", []() { 
     // Example: Return a NumPy-like array or another complex object
-    return numcpp_version(); 
+    return nc_version(); 
   },
-  R"(\
+  R"(
 Get the NumCpp header library version.
 
 Returns
@@ -114,10 +126,10 @@ Examples
 )"
   );
 
-  // Define module functions using a Function Pointer and a docstring
-  m.def("py_sum_of_squares",
-    &sum_of_squares,
-    R"(\
+// Define module functions using a Function Pointer and a docstring
+m.def("py_sum_of_squares",
+  &sum_of_squares,
+  R"(
 Calculate the sum of squares.
 
 Parameters
@@ -140,8 +152,6 @@ Examples
 )"
   );
 
-  // Conditionally add function or feature based on NUMCPP_NO_INCLUDE
-#ifndef NUMCPP_NO_INCLUDE
-  numcpp_function(m);  // This will add the function when numcpp is enabled
-#endif
+// Conditionally add function or feature based on LNPY_USE_NUMCPP
+numcpp_function(m);  // This will add the function when numcpp is enabled
 }

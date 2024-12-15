@@ -11,51 +11,39 @@ Created by Cython.
 # that is still very readable and can easily interface with Python. When compiled,
 # .pyx files yield C/C++ extensions that can be imported and used in Python.
 
+######################################################################
+## Numpy implemented functions
+######################################################################
+
 import numpy as np  # Import Cython's NumPy support
 cimport numpy as cnp  # Cython's NumPy support
 
 # Ensure NumPy is properly initialized for Cython
 cnp.import_array()
 
-from .cy_numcpp_api cimport *  # Import declarations from .pxd
-include "cy_numcpp_api.pxi"    # Include the .pxi file, If Needed avoid duplicates
+######################################################################
+## Import implemented functions
+######################################################################
 
+from .cy_numcpp_api cimport *  # Import declarations from .pxd
+
+include "cy_numcpp_api.pxi"    # Include the .pxi file, If Needed avoid duplicates
 
 ## Define __all__ to specify the public interface of the module,
 # not required default all above func
 __all__ = [
-  'nc_version',
   'py_print',
-  'py_say_hello_inline',
+  'py_byte_print',
+  'nc_version',
   'py_random_array',
   'py_sum_of_squares',
 ]
 
-
 # Expose the C++ print_message function to Python
-def nc_version():
-    """
-    Get the NumCpp header library version.
-    
-    Returns
-    -------
-    str
-        NumCpp header library version.
-    
-    Examples
-    --------
-    .. jupyter-execute::
-    
-        >>> from lightnumpy.cy_bindings import cy_numcpp_api as lp
-        >>> lp.nc_version()
-    """
-    # Call the C++ function and return the version (utf-8 decoded bytes)
-    return numcpp_version().decode('utf-8')
-
-
-# Expose the C++ print_message function to Python
-def py_print(message="Hello, from Cython C++!"):
-    """
+def py_print(
+  message="Hello, from Cython C++!",
+) -> None:
+    """\
     Prints a Unicode message.
     
     Parameters
@@ -75,12 +63,13 @@ def py_print(message="Hello, from Cython C++!"):
         >>> from lightnumpy.cy_bindings import cy_numcpp_api as lp
         >>> lp.py_print()
     """
-    printcpp(message.encode('utf-8'))  # Call the C++ function with the message
-
+    cpp_char_to_print(message.encode('utf-8'))  # Call the C++ function with the message
 
 # Expose the C++ inline function to Python
-def py_say_hello_inline(message="Hello, from Cython .pxi file!"):
-    """
+def py_byte_print(
+  message="Hello, from Cython .pxi file!",
+) -> None:
+    """\
     Prints a unicode message as byte.
     
     Parameters
@@ -98,24 +87,43 @@ def py_say_hello_inline(message="Hello, from Cython .pxi file!"):
     .. jupyter-execute::
     
         >>> from lightnumpy.cy_bindings import cy_numcpp_api as lp
-        >>> lp.py_say_hello_inline()
+        >>> lp.py_byte_print()
     """
     # Call the C++ inline function, ensuring the Python string is converted to char* (utf-8 encoded bytes)
-    say_hello_inline(message.encode('utf-8'))#.decode('utf-8')
+    cy_char_to_print(message.encode('utf-8'))  #.decode('utf-8')
 
+# Overriding cdef method with def method.
+def nc_version() -> str:
+    """\
+    Get the NumCpp header library version.
+    
+    Returns
+    -------
+    str
+        NumCpp header library version.
+    
+    Examples
+    --------
+    .. jupyter-execute::
+    
+        >>> from lightnumpy.cy_bindings import cy_numcpp_api as lp
+        >>> lp.nc_version()
+    """
+    # Call the C++ function and return the version (utf-8 decoded bytes)
+    return get_numcpp_version().decode('utf-8')
 
 # Cython function interfacing with C++
 # Python-exposed function to calculate the sum of squares of a NumPy array
 def py_sum_of_squares(
-    cnp.ndarray arr,
-    axis=None,
-    dtype=None,
-    out=None,
-    keepdims=np._NoValue,
-    initial=np._NoValue,
-    where=np._NoValue
-):
-    """
+  cnp.ndarray arr,
+  axis=None,
+  dtype=None,
+  out=None,
+  keepdims=np._NoValue,
+  initial=np._NoValue,
+  where=np._NoValue
+) -> float:
+    """\
     Calculate the sum of squares of a NumPy array along a specified axis.
 
     Parameters
@@ -169,10 +177,11 @@ def py_sum_of_squares(
     # Calculate and return the sum of squares along the specified axis
     return np.sum(arr ** 2, axis=axis, dtype=dtype, out=out, keepdims=keepdims, initial=initial, where=where)
 
-
 # Python-exposed function to get random_array of a NumPy array
-def py_random_array(*shape):
-    """
+def py_random_array(
+  *shape,
+) -> np.ndarray[np.float64]:
+    """\
     Generate a random NumPy array of the given shape with random values in the range [0, 1).
 
     Parameters

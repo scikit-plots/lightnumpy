@@ -27,8 +27,8 @@ pip install lightnumpy
 - **Scalable**: Ideal for IoT, embedded systems, and resource-limited devices.
 
 ## See Also
-- https://scikit-plots.github.io/stable/api/scikitplot._numcpp_api.html
-  
+- [1] https://scikit-plots.github.io/stable/api/scikitplot._numcpp_api.html
+- [2] https://github.com/dpilger26/NumCpp
 ---
 
 ## LightNumPy Project Structure
@@ -40,20 +40,14 @@ lightnumpy/
 │   ├── __init__.py                   # Main package initializer  
 │   ├── .clang-format                 # Code formatting rules for C/C++, code formatting rules like braces placement, and spacing.
 │   ├── .clang-tidy                   # Code linting rules for C/C++, code analysis, warnings, and bug detection.
-│   ├── _c_core/                      # Low-level C implementation sources  
-│   │   ├── include/                  # C headers  
-│   │   │   ├── array.h               # Array definitions  
-│   │   │   └── math_ops.h            # Math operation headers  
-│   │   └── src/                      # C source files  
-│   │       ├── array.c               # Array operations  
-│   │       └── math_ops.c            # Math implementations  
-│   ├── _cpp_core/                    # Higher-level C++ implementation sources  
-│   │   ├── include/                  # C++ headers  
-│   │   │   ├── tensor.hpp            # Tensor operations  
-│   │   │   └── utilities.hpp         # Helper utilities  
-│   │   └── src/                      # C++ source files  
-│   │       ├── tensor.cpp            # Tensor operation implementations  
-│   │       └── utilities.cpp         # Utility function implementations  
+│   ├── _core/                        # Low-level C and Higher-level C++ implementation sources  
+│   │   ├── include/                  # C and C++ headers  
+│   │   │   ├── lightnumpy            # lightnumpy core C and C++ headers 
+│   │   │   └── NumCpp                # NumCpp Headers [2], Only available when packages installed
+│   │   └── src/                      # C and C++ source files  
+│   │       ├── dummymodule.c         # Sample Module
+│   │       ├── hello.c               # Print and string operations  
+│   │       └── nc_version.cpp        # NumCpp Headers versions
 │   ├── _gpu_core/                    # GPU operations  
 │   │   ├── include/                  # GPU headers  
 │   │   │   ├── gpu_ops.hpp           # GPU operation definitions  
@@ -70,25 +64,18 @@ lightnumpy/
 │   │       └── tpu_helpers.cpp       # TPU utility functions  
 │   ├── cy_bindings/                  # Cython implementation, Cython bridging native libraries with Python APIs
 │   │   ├── __init__.py               # Initialize the cython package  
-│   │   ├── include/                  # Headers  
-│   │   └── src/                      # TPU source files  
-│   │       ├── array_cy.pyx          # Cython implementation of array module  
-│   │       ├── linalg_cy.pyx         # Cython implementation of linalg operations  
-│   │       ├── utils_cy.pyx          # Cython utilities  
-│   │       ├── gpu_cy.pyx            # GPU-specific Cython bindings  
-│   │       ├── tpu_cy.pyx            # TPU-specific Cython bindings  
+│   │   ├── include/                  # Cython Headers  
+│   │   └── src/                      # Cython Source files  
 │   │       └── cython_helpers.pxd    # Shared Cython declarations (optional) 
 │   ├── py_bindings/                  # Bindings for Python and native code, pybind11 bridging native libraries with Python APIs
-│   │   ├── include/                  # Headers  
-│   │   └── src/                      # TPU source files  
-│   │       ├── c_bindings.c          # C-Python bindings  
-│   │       ├── cpp_bindings.cpp      # C++-Python bindings  
-│   │       ├── gpu_bindings.cu       # CUDA-Python bindings  
-│   │       ├── tpu_bindings.cpp      # TPU-Python bindings  
+│   │   ├── include/                  # pybind11 Headers  
+│   │   └── src/                      # pybind11 Source files  
+│   │       ├── py_math.cpp           # Element-wise operations 
+│   │       ├── py_nc_random          # Random array functionality pybind11 with NumCpp 
 │   │       └── pybind_utils.cpp      # Helper functions for bindings   
 │   ├── python_api/                   # Pure Python layer providing user-friendly interfaces for core functionality
 │   │   ├── __init__.py               # API entry point for `python_api`  
-│   │   ├── _utils_impl.py            # get_c_include, get_cpp_include, and get_include for lightnumpy library's C and C++ headers
+│   │   ├── _utils_impl.py            # get_include for lightnumpy library's C and C++ _core Headers with NumCpp Headers [2]
 │   │   ├── array.py                  # Array class implementation and basic methods
 │   │   ├── core.py                   # Contains core array functionality
 │   │   ├── linalg.py                 # Basic linear algebra operations (e.g., dot, transpose)

@@ -35,7 +35,7 @@ inc_dir_py_bindings = include_directories(
 message(
   '\npy_bindings module compatibility files defined successfully: ' +
   '@0@ '.format('lightnumpy/py_bindings/include') +
-  'with NumCpp: @0@'.format(get_option('numcpp').enabled())
+  'with NumCpp: @0@'.format(get_option('lnpy_use_numcpp').enabled())
 )
 
 ######################################################################
@@ -43,7 +43,7 @@ message(
 ######################################################################
 
 # Define dependencies with NumCpp
-dep_list = [dep_py, dep_pybind11, dep_np, dep_cpp_core]
+dep_list = [dep_py, dep_pybind11, dep_np, dep_core]
 
 ######################################################################
 ## extension metadata
@@ -58,7 +58,7 @@ py_bindings_extension_metadata = {
         'src/py_numcpp_api.cpp',
       ],
       'include_directories': [                      # Include dirs for compilation
-        inc_dir_cpp_core, inc_dir_py_bindings
+        inc_dir_py_bindings, inc_dir_core
       ],
       'dependencies': dep_list,                     # External libraries and dependencies
       'link_with': [],                              # Link with the created static library
@@ -73,7 +73,7 @@ py_bindings_extension_metadata = {
     },
 }
 
-
+# https://mesonbuild.com/Syntax.html#foreach-with-a-dictionary
 # Loop over each defined extension and create the corresponding module
 foreach ext_name, ext_dict : py_bindings_extension_metadata
   pyext_module = py.extension_module(

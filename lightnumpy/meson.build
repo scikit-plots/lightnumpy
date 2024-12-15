@@ -190,10 +190,7 @@ _cython_tree = [
 # belows can be needs to be to be before ... since ... cimport *.pxd
 
 # Subdirectories for different cores
-# subdir('_c_core')
-subdir('_cpp_core')
-# subdir('_gpu_core')
-# subdir('_tpu_core')
+subdir('_core')
 
 # Subdirectories for python module
 subdir('cy_bindings')

@@ -16,10 +16,14 @@
 # Import the necessary C++ standard library components
 from libcpp.string cimport string
 
+######################################################################
+## Standard headers implemented functions
+######################################################################
+
 # We use inline to reduce function call overhead
 # and improve performance by embedding the function directly at the call site.
 # Declare the inline function with the correct C++ string handling
-cdef inline void say_hello_inline(const char* message = b"Hello, from Cython .pxi file!"):
+cdef inline void cy_char_to_print(const char* message = b"Hello, from Cython .pxi file!"):
     # Convert the char* to a C++ string
     cdef string cpp_message = string(message)
     

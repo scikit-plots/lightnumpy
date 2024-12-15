@@ -1,1 +1,0 @@
-// Template: Implement utility functions for tensor manipulations.

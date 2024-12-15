@@ -1,1 +1,0 @@
-// Template: Define mathematical operations (addition, multiplication, etc.) for the array module.

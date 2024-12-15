@@ -1,14 +1,17 @@
 ## scikit-plots/meson.build
 
+# Authors: The scikit-plots developers
+# SPDX-License-Identifier: BSD-3-Clause
+
 ######################################################################
 ## Project
+## https://mesonbuild.com/Syntax.html#syntax
 ######################################################################
 
 # Project configuration
 project(
-  'lightnumpy',
+  'lightnumpy',                             # The name of the project
   'c', 'cpp', 'cython', #'python',
-  # version: '0.1.0',
   # Note that the git commit hash cannot be added dynamically here
   # That only happens when importing from a git repository.
   # See `lightnumpy/__init__.py`
@@ -18,7 +21,6 @@ project(
     ['python', 'lightnumpy/_build_utils/version.py'],
     check: true,
   ).stdout().strip(),
-  license: 'BSD-3 Clause',
   meson_version: '>= 1.5.0',
   license: 'BSD-3-Clause',
   # license_files: [],
@@ -29,8 +31,8 @@ project(
     'c_std=c17',                     # Set C standard to C17
     'cpp_std=c++17',                 # Set C++ standard to C++17
     'fortran_std=legacy',
-    # 'blas=openblas',
-    # 'lapack=openblas',
+    # 'blas=openblas',               # 'scipy-openblas'
+    # 'lapack=openblas',             # 'scipy-openblas'
     # https://mesonbuild.com/Builtin-options.html#details-for-warning_level
     # 'warning_level=3',             # You can specify warning levels here if needed
     # 'werror=true',                 # Treat warnings as errors globally
@@ -46,7 +48,6 @@ release_version = meson.project_version()
 # 
 # Get the directory relative to the build directory
 # build_dir = meson.current_build_dir()
-
 
 ######################################################################
 ## BLAS/LAPACK dependency
@@ -1017,6 +1018,27 @@ dep_np = declare_dependency(
 )
 
 ######################################################################
+## py copier os independent
+######################################################################
+
+cli_copier = find_program(['cp', 'lightnumpy/_build_utils/copyfiles.py'])
+
+######################################################################
+## py tempita
+######################################################################
+
+# Usage: custom_target(command: [py, cli_tempita, '@INPUT@', '-o', '@OUTDIR@'],
+# Usage: custom_target(command: [cli_tempita, '@INPUT@', '-o', '@OUTPUT@'],
+cli_tempita = find_program('lightnumpy/_build_utils/tempita.py')
+
+# Usage: tempita_gen.process('__config__.py.in')
+# Used for templated py/C/Cpp/pyx/pxd code
+gen_tempita = generator(cli_tempita,
+  arguments : ['@INPUT@', '-o', '@OUTPUT@'],
+  output : '@BASENAME@',
+)
+
+######################################################################
 ## Installation tags
 ## https://mesonbuild.com/Installing.html#installing
 ## https://mesonbuild.com/Installing.html#installation-tags
@@ -1047,9 +1069,8 @@ install_subdir(
   'lightnumpy',
   install_dir: py.get_install_dir(),  # Folder relative to site-packages to install to
   install_tag: 'python-runtime',      # Tag to help categorize the install
-  exclude_directories: [              # Directories to exclude from installation
-    'tests',                          # Excludes the 'tests' directory
-    'NumCpp',                         # Excludes the 'NumCpp' directory Submodule
+  exclude_directories: [              # Exclude from installation, but it doesn't work as expected
+    '*tests',                         # Excludes the 'tests' directory
   ],
 )
 # Optionally add a message to confirm the installation
@@ -1062,4 +1083,5 @@ message(
 ## Next
 ######################################################################
 
+subdir('third_party')
 subdir('lightnumpy')

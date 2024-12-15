@@ -8,8 +8,4 @@
 # or IDEs to understand the types and signatures of the functions
 # and classes in the corresponding .pyx files.
 
-# cdef void printcpp(const std::string& message = "Hello, from C++!")  # Stub for print_message function
-# cdef double sum_of_squares(const double* arr, long size)  # Stub for sum_of_squares function
-
-# def py_sum_of_squares(arr: np.ndarray) -> float:  # Stub for Python-exposed function
-#     pass  # Implementation not included in .pyi
+# cdef inline void cy_char_to_print(const char* message = b"Hello, from Cython .pxi file!")  # Stub for print function

@@ -59,6 +59,9 @@ if _BUILT_WITH_MESON:
 
 
 from .python_api import *; del python_api;
+from . import (
+  _core,
+)
 
 # Remove symbols imported for internal use
 del (

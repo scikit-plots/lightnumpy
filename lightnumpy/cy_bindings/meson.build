@@ -17,7 +17,7 @@ cy_bindings_cython_tree = [
 ######################################################################
 
 # Define dependencies with NumCpp
-dep_list = [dep_py, dep_pybind11, dep_np, dep_cpp_core]
+dep_list = [dep_py, dep_pybind11, dep_np, dep_core]
 
 ######################################################################
 ## extension metadata
@@ -32,7 +32,7 @@ cy_bindings_extension_metadata = {
         'cy_numcpp_api.pyx'
       ],
       'include_directories': [                                     # Include dirs for compilation
-        inc_dir_cpp_core,    
+        inc_dir_core,    
       ],
       'dependencies': dep_list,                                    # External libraries and dependencies
       'link_with': [],                                             # Link with the created static library
@@ -48,6 +48,7 @@ cy_bindings_extension_metadata = {
     },
 }
 
+# https://mesonbuild.com/Syntax.html#foreach-with-a-dictionary
 # Loop over each defined extension and create the corresponding module
 foreach ext_name, ext_dict : cy_bindings_extension_metadata
   pyext_module = py.extension_module(

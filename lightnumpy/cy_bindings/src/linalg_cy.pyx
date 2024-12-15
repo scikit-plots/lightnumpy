@@ -1,1 +1,0 @@
-# Template: Implement linear algebra functions in Cython.

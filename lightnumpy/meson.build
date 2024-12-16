@@ -191,6 +191,7 @@ _cython_tree = [
 
 # Subdirectories for different cores
 subdir('_core')
+subdir('_gpu_core')
 
 # Subdirectories for python module
 subdir('cy_bindings')

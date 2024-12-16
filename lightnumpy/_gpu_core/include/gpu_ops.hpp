@@ -1,1 +1,0 @@
-// Template: Declare GPU operations using CUDA.

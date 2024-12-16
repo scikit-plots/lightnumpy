@@ -105,4 +105,4 @@ pip-delete-this-directory.txt
 atlassian-ide-plugin.xml
 
 # OS droppings
-**.DS_Store
+**.DS_Store 

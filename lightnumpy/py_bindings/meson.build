@@ -71,6 +71,26 @@ py_bindings_extension_metadata = {
       'install': true,                              # Whether to install the .so file executable after building
       'subdir': 'lightnumpy/py_bindings',           # Path where the module is located
     },
+  # Not Implmented
+  # 'py_gpu_numcpp_api':
+  #   {
+  #     'sources': [                                  # C++ source file with NumCpp + Pybind11 bindings
+  #       'src/py_gpu_numcpp_api.cpp',
+  #     ],
+  #     'include_directories': [                      # Include dirs for compilation
+  #       inc_dir_py_bindings, inc_dir_gpu_core
+  #     ],
+  #     'dependencies': dep_list,                     # External libraries and dependencies
+  #     'link_with': [],                              # Link with the created static library
+  #     'override_options': [
+  #       'cython_language=cpp',                      # Ensure Cython knows to generate C++ code
+  #       'optimization=3'                            # Optimization level '-O3'
+  #     ],
+  #     'c_args': cython_c_flags,                     # Additional C/C++ arguments
+  #     'cpp_args': cython_cpp_flags,                 # Additional C/C++ arguments
+  #     'install': true,                              # Whether to install the .so file executable after building
+  #     'subdir': 'lightnumpy/py_bindings',           # Path where the module is located
+  #   },
 }
 
 # https://mesonbuild.com/Syntax.html#foreach-with-a-dictionary

@@ -10,7 +10,7 @@ recursive-include lightnumpy *
 
 ## Include all non-Python files in your package directory (e.g., data files, config files)
 ## Replace `your_package_name` with the actual name of your package
-# recursive-include scikitplot *.txt *.csv *.json *.yaml
+# recursive-include lightnumpy *.txt *.csv *.json *.yaml
 
 ## Exclude unnecessary files or directories (useful for keeping the package clean)
 # prune tests  # Exclude the tests directory from the distribution

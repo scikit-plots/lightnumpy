@@ -11,7 +11,7 @@ if get_option('lnpy_use_numcpp').enabled()
   _global_numcpp_args += [
     # The -D flag defines a macro that is globally available during compilation.
     # The -U flag removes a macro definition during compilation, effectively ignoring it.
-    '-DLNPY_USE_NUMCPP',  # Default disable all NumCpp features
+    '-DLNPY_USE_NUMCPP',  # Enable all NumCpp features
     '-DNUMCPP_INCLUDE_PYBIND_PYTHON_INTERFACE', # Include PyBind11 Python interface helper functions
     # The -f option in compilers like gcc or g++ is used to enable
     # or disable specific compiler features or behaviors.
@@ -48,7 +48,7 @@ if get_option('lnpy_use_numcpp').enabled()
   endif
 else
   _global_numcpp_args += [
-    '-U LNPY_USE_NUMCPP',  # Default disable all NumCpp features
+    '-U LNPY_USE_NUMCPP',  # Disable all NumCpp features
   ]
 endif
 

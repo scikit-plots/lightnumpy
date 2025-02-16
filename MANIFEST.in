@@ -18,8 +18,9 @@ recursive-include lightnumpy *
 
 # Include files in a specific subdirectory (e.g., docs for documentation)
 # recursive-include docs *
-recursive-include requirements *
+include environment.yml
 include requirements.txt
+recursive-include requirements *
 
 ## Include specific data files, like your CITATION.bib
 include CITATION.bib
@@ -28,11 +29,12 @@ include CITATION.cff
 ## Include the README and LICENSE files (important for documentation and legal information)
 include CODE_OF_CONDUCT.md
 include CONTRIBUTING.md
-include LICENSE
 include LICENSE.txt
+include LICENSE
 recursive-include LICENSES *
 
 # Optionally, include other specific folders or files
+include .pre-commit-config.yaml
 include pyproject.toml
 include pytest.ini
 include README.md

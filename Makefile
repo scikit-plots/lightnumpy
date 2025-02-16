@@ -28,8 +28,9 @@ all: clean publish
 ## helper for defined targets in Makefile
 help:
 	@echo "Please use \`make <target>' where <target> is one of"
-	@echo "  clean-basic     to remove 'jupyter' artifacts and 'testing' artifacts files"
-	@echo "  clean           to remove package 'build' artifacts and temporary files"
+	@echo "  clean-basic     to remove 'jupyter' artifacts and 'testing' artifacts files."
+	@echo "  clean           to remove package 'build' artifacts and temporary files."
+	@echo "  reset           to discarding any local uncommitted changes in tracked files."
 	@echo "  pkg-setup       Packaging: 'setup.py' build the pypi Packages, depends on 'clean'"
 	@echo "  pkg-build       Packaging: 'build' library by 'setup.py' or 'pyproject.toml' for pypi Packages, depends on 'clean'"
 	@echo "  comp-meson      Compiling: 'meson' library for step-by-step compiling, depends on 'clean'"
@@ -73,6 +74,8 @@ clean-basic:
 	@echo "Removed all '.pytest_cache'"
 	@rm -rf `find -L . -type d -name "__MACOSX" -not -path "./third_party/*"`
 	@echo "Removed zip file leftovers '__MACOSX'"
+	@rm -rf `find -L . -type d -name ".vscode" -not -path "./third_party/*"`
+	@echo "Removed zip file leftovers '.vscode'"
 	@echo "basic cleaning completed."
 
 ## pypi cleaning in 'build dirs'
@@ -93,8 +96,17 @@ clean: clean-basic
 	@echo "Removed all '*.so' files in 'build dirs'"
 	@echo "pypi cleaning completed."
 
+reset:
+	## to discarding any local uncommitted changes in tracked files.
+	## Warning: -f is destructive—any unsaved changes will be lost.
+	git checkout -f
+
 ######################################################################
 ## Packaging
+## https://setuptools.pypa.io/en/stable/userguide/pyproject_config.html
+## https://mesonbuild.com/meson-python/tutorials/introduction.html
+## https://build.pypa.io/en/stable/
+## https://github.com/pypa/build
 ######################################################################
 
 ## Packaging: 'setup.py' build the pypi Packages, depends on "clean"
@@ -109,7 +121,6 @@ pkg-setup: clean
 ## Packaging: 'build' library by 'setup.py' or 'pyproject.toml' for pypi Packages, depends on "clean"
 pkg-build: clean
 	@echo "Packaging: 'build' library by 'setup.py' or 'pyproject.toml' with own configuration..."
-	@## https://mesonbuild.com/meson-python/how-to-guides/editable-installs.html
 	@echo "Configuration libraries: can be (e.g. (setuptools, wheels) or (mesonbuild, meson, ninja))."
 	@# pip install build
 	@# python -m build --sdist
@@ -117,7 +128,7 @@ pkg-build: clean
 	@python -m build
 
 ######################################################################
-## Compiling
+## Compiling by Meson step-by-step
 ######################################################################
 
 ## Compiling: "meson" library for step-by-step compiling, depends on "clean"
@@ -145,7 +156,9 @@ comp-meson: clean
 	@# ninja -C builddir test
 
 ######################################################################
-## Installing
+## Installing Development Mode (a.k.a. “Editable Installs”)
+## https://setuptools.pypa.io/en/stable/userguide/development_mode.html
+## https://mesonbuild.com/meson-python/how-to-guides/editable-installs.html
 ######################################################################
 
 ## Install Packages to local, depends on "clean"
@@ -155,6 +168,7 @@ install: clean
 	@# python -m pip install --use-pep517 .
 	@# python -m pip install --no-build-isolation --no-cache-dir .
 	@# python -m pip install --no-build-isolation --no-cache-dir -e . -vvv
+	@# make clean && python -m pip install --no-build-isolation --no-cache-dir -e .[dev,build,test,docs,gpu] -v
 	@python -m pip install --no-build-isolation --no-cache-dir --editable .
 
 ######################################################################
@@ -191,7 +205,7 @@ else
 	@echo "MOD is not defined"
 endif
 
-## git submodule foreach --recursive git pull 
+## git submodule foreach --recursive git pull
 # git submodule update --init --recursive --remote
 
 ######################################################################
@@ -316,7 +330,7 @@ tag:
 ifdef BR
 	@## Tagging in the stable Branch (Stability-First Workflow)
 	@#Best practice: Tag before PyPI publishing.
-	@echo "Adding tag to branch: '$(BR)'" 
+	@echo "Adding tag to branch: '$(BR)'"
 	@git checkout "$(BR)"
 	@echo "Existing tags:"
 	@git tag

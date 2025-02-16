@@ -10,20 +10,20 @@
 
 # Project configuration
 project(
-  'lightnumpy',                             # The name of the project
+  'scikit-plots',
   'c', 'cpp', 'cython', #'python',
   # Note that the git commit hash cannot be added dynamically here
   # That only happens when importing from a git repository.
   # See `lightnumpy/__init__.py`
   version: run_command(
-    # This should become `lightnumpy/_version.py` in 'lightnumpy'
-    # ['lightnumpy/_build_utils/version.py'],
-    ['python', 'lightnumpy/_build_utils/version.py'],
+    # ['python', 'lightnumpy/_build_utils/version.py'],
+    # This should become `lightnumpy/_version.py` in 'scikit-plots'
+    ['lightnumpy/_build_utils/gitversion.py'],
     check: true,
   ).stdout().strip(),
   meson_version: '>= 1.5.0',
-  license: 'BSD-3-Clause',
-  # license_files: [],
+  license: 'BSD-3-Clause',     # Valid SPDX license expression: 'MIT', 'Apache-2.0', 'GPL-3.0-or-later'
+  # license-files = ['LICENSE', 'LICENSES/...'],  # list[file] COPYING, COPYRIGHT
   default_options: [
     'b_ndebug=if-release',
     'buildtype=debugoptimized',
@@ -40,13 +40,13 @@ project(
 )
 release_version = meson.project_version()
 
-# Get the directory relative to the top-level project directory
+## Get the directory relative to the top-level project directory
 # project_root = meson.project_source_root()
-# 
-# Get the directory relative to the current meson.build file
+
+## Get the directory relative to the current meson.build file
 # current_dir = meson.current_source_dir()
-# 
-# Get the directory relative to the build directory
+
+## Get the directory relative to the build directory
 # build_dir = meson.current_build_dir()
 
 ######################################################################
@@ -299,15 +299,15 @@ cpp_id = cpp.get_id() # Possible values: 'gcc', 'clang', 'msvc', etc.
 # Check compiler is recent enough (see the SciPy Toolchain Roadmap for details)
 if cc_id == 'gcc'
   if not cc_version.version_compare('>=9.1')
-    error('lightnumpy requires GCC >= 9.1')
+    error('scikit-plots requires GCC >= 9.1')
   endif
 elif cc_id == 'clang' or cc_id == 'clang-cl'
   if not cc_version.version_compare('>=12.0')
-    error('lightnumpy requires Clang >= 12.0')
+    error('scikit-plots requires Clang >= 12.0')
   endif
 elif cc_id == 'msvc'
   if not cc_version.version_compare('>=19.20')
-    error('lightnumpy requires MSVC >= 19.20 (Visual Studio 2019 or newer)')
+    error('scikit-plots requires MSVC >= 19.20 (Visual Studio 2019 or newer)')
   endif
 endif
 
@@ -392,6 +392,7 @@ _global_args = [
   '-Wno-unused-result',             # Suppress warnings about unused results
   '-Wno-unused-variable',           # Suppress warnings about unused variables
   '-Wno-write-strings',             # Treat string literals as `const char[]`
+  '-Wno-discarded-qualifiers',      # to suppress warnings about discarded qualifiers (like const, volatile, etc.).
 ]
 # Additional arguments for C
 _global_c_args = cc.get_supported_arguments(
@@ -418,7 +419,7 @@ if host_machine.system() == 'linux' or host_machine.system() == 'darwin'
 endif
 
 # Enable multithreading if std::thread is supported
-if (cpp.has_function('std::thread') or 
+if (cpp.has_function('std::thread') or
     cpp.compiles('#include <thread>\nint main() { std::thread t; return 0; }', name: 'std::thread support'))
   # Enable multithreading with STL parallel execution policies
   _global_cpp_args += ['-DNUMCPP_USE_MULTITHREAD']
@@ -493,16 +494,18 @@ add_project_arguments(_intel_fflags, language: 'fortran')
 ######################################################################
 
 # Hide symbols when building on Linux with GCC. For Python extension modules,
-# we only need `PyInit_*` to be public; anything else may cause problems. 
-# So we use a linker script to avoid exporting those symbols (this is in addition 
-# to Meson using `-fvisibility=hidden` for C and `-fvisibility-inlines-hidden` for C++ code). 
+# we only need `PyInit_*` to be public; anything else may cause problems.
+# So we use a linker script to avoid exporting those symbols (this is in addition
+# to Meson using `-fvisibility=hidden` for C and `-fvisibility-inlines-hidden` for C++ code).
 # See gh-15996 for details.
 
 _linker_script = meson.project_source_root() / 'lightnumpy/_build_utils/link-version-pyinit.map'
-version_link_args = ['-Wl,--version-script=' + _linker_script]
+version_link_args = [
+  '-Wl,--version-script=' + _linker_script,
+]
 
 # Note that FreeBSD only accepts version scripts when -shared is passed,
-# hence we need to pass that to `cc.links` explicitly (the flag is already present 
+# hence we need to pass that to `cc.links` explicitly (the flag is already present
 # for `extension_module` invocations).
 if not cc.links('', name: '-Wl,--version-script', args: ['-shared'] + version_link_args)
   version_link_args = []
@@ -609,7 +612,8 @@ endif
 mod_py = import('python')
 # NOTE: with Meson >=0.64.0 we can add `pure: false` here and remove that line
 # everywhere else, see https://github.com/mesonbuild/meson/pull/10783.
-py = mod_py.find_installation(pure: false)
+# py = find_program('python3', 'python', required: true)  # Find Python cross-platform
+py = mod_py.find_installation(pure: false)  # Find system Python
 
 # Get the Python Dependencies
 dep_py = py.dependency()
@@ -734,7 +738,7 @@ print(os.path.dirname(pythran.__file__))
       ],
       check: true
     ).stdout().strip()
-  endif  
+  endif
   inc_dir_pythran = include_directories(_pythran_inc_dir)
 
   message(
@@ -918,7 +922,7 @@ cython_cpp_flags = cython_c_flags + [
 ## numpy include dir
 ######################################################################
 
-# When cross-compiling lightnumpy, the compiler needs access to NumPy and Pythran
+# When cross-compiling scikitplots, the compiler needs access to NumPy and Pythran
 # headers for the host platform (where the package will actually run). These
 # headers may be incompatible with any corresponding headers that might be
 # installed on the build system (where the compilation is performed). To make
@@ -1018,12 +1022,6 @@ dep_np = declare_dependency(
 )
 
 ######################################################################
-## py copier os independent
-######################################################################
-
-cli_copier = find_program(['cp', 'lightnumpy/_build_utils/copyfiles.py'])
-
-######################################################################
 ## py tempita
 ######################################################################
 
@@ -1039,10 +1037,17 @@ gen_tempita = generator(cli_tempita,
 )
 
 ######################################################################
+## py copier
+######################################################################
+
+## If 'cp' is not found, try executing Python script directly but it not fully compatibility
+# cli_copier = find_program(['cp', 'lightnumpy/_build_utils/copyfiles.py'], required: false)
+
+######################################################################
 ## Installation tags
 ## https://mesonbuild.com/Installing.html#installing
 ## https://mesonbuild.com/Installing.html#installation-tags
-## 
+##
 ## It is possible to install only a subset of the installable files using
 ## meson install --tags tag1,tag2 command line. When --tags is specified,
 ## only files that have been tagged with one of the tags are going to be installed.
@@ -1064,13 +1069,13 @@ fs = import('fs')
 
 # Install the main `lightnumpy` package without any `tests` folders
 # Copy all the .py files to the install dir, rather than using
-# py.install_sources and needing to list them explicitely one by one
+# py.install_sources and needing to list them explicitly one by one
 install_subdir(
   'lightnumpy',
   install_dir: py.get_install_dir(),  # Folder relative to site-packages to install to
   install_tag: 'python-runtime',      # Tag to help categorize the install
   exclude_directories: [              # Exclude from installation, but it doesn't work as expected
-    '*tests',                         # Excludes the 'tests' directory
+    '**tests',                        # Excludes the 'tests' directory
   ],
 )
 # Optionally add a message to confirm the installation

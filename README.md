@@ -2,21 +2,59 @@
 
 **Lightweight and Fast Numerical Computing Library for Python**
 
-A lightweight version of NumPy (or similar functionality).
-- Install spesific/latest version by `GITHUB` use `<branches>` or `<tags>`
+A lightweight version of NumPy or Cupy (or similar functionality).
 
-```bash
-#pip install git+https://github.com/scikit-plots/lightnumpy.git@<branches>
-pip install git+https://github.com/scikit-plots/lightnumpy.git@main
-pip install git+https://github.com/scikit-plots/lightnumpy.git@maintenance/0.0.x
+### Install|Try LightNumPy - Doc: https://scikit-plots.github.io/dev
+
+## User Installation:
+
+### Installing from source (REQUIRED OS/LIB BUILD PACKAGES)
+You can also install lightnumpy from source if you want to take advantage of the latest changes:
+```sh
+git clone https://github.com/scikit-plots/lightnumpy.git
+cd lightnumpy
+
+git submodule update --init  # download submodules
+
+# pip install -r ./requirements/all.txt
+pip install -r ./requirements/build.txt
+pip install --no-build-isolation --no-cache-dir -e . -v
 ```
 
-Install `lightnumpy` using `pip`:
+### It is also possible to include optional dependencies:
+```sh
+# (Optionally) Try Development [dev,build,test,docs,gpu]
+## gpu refer NVIDIA CUDA support like cupy lib
+python -m pip install --no-build-isolation --no-cache-dir -e .[dev,build,test,docs] -v
 
-```bash
-# Placeholder, Not Implemented
-pip install lightnumpy
+## gpu refer NVIDIA CUDA support like cupy lib
+# pip install "lightnumpy[gpu]"
 ```
+
+### Installing using pip
+
+The easiest way to set up LightNumPy is to install it using pip with the following command:
+
+- by `pypi`:
+  ```sh
+  pip install lightnumpy -U
+  ```
+
+- by `GITHUB` use `<branches>` or `<tags>` If any:
+  - Branches:
+    ```bash
+    #pip install git+https://github.com/scikit-plots/scikit-plots.git@<branches>
+    # Latest in Development with C,Cpp,Fortran Support
+    pip install git+https://github.com/scikit-plots/lightnumpy.git@main
+    pip install git+https://github.com/scikit-plots/lightnumpy.git@maintenance/0.0.x
+    ```
+  <br>
+
+  - Tags:
+    ```bash
+    #pip install git+https://github.com/scikit-plots/scikit-plots.git@<tags>
+    pip install git+https://github.com/scikit-plots/lightnumpy.git@v0.0.x
+    ```
 
 ---
 
@@ -43,15 +81,15 @@ lightnumpy/
 │   ├── _core/                        # Low-level C and Higher-level C++ implementation sources  
 │   │   ├── include/                  # C and C++ headers  
 │   │   │   ├── lightnumpy            # lightnumpy core C and C++ headers 
-│   │   │   └── NumCpp                # NumCpp Headers [2], Only available when packages installed
+│   │   │   └── NumCpp                # NumCpp Headers [2] immutable
 │   │   └── src/                      # C and C++ source files  
 │   │       ├── dummymodule.c         # Sample Module
 │   │       ├── hello.c               # Print and string operations  
 │   │       └── nc_version.cpp        # NumCpp Headers versions
 │   ├── _gpu_core/                    # GPU operations  
 │   │   ├── include/                  # GPU headers  
-│   │   │   ├── gpu_ops.hpp           # GPU operation definitions  
-│   │   │   └── cuda_helpers.hpp      # CUDA helper utilities  
+│   │   │   ├── lightnumpy            # lightnumpy gpu core C and C++ headers as .cuh
+│   │   │   └── numC++                # numC++ Headers
 │   │   └── src/                      # GPU source files  
 │   │       ├── gpu_ops.cu            # CUDA implementations  
 │   │       └── cuda_helpers.cu       # CUDA utility functions  
@@ -117,9 +155,9 @@ lightnumpy/
 ```
 
 
----
+<!-- --- -->
 
-```sh
+<!-- ```sh
 mkdir lightnumpy
 cd lightnumpy
 
@@ -135,7 +173,8 @@ touch docs/index.md
 
 mkdir examples
 touch examples/{array_example.py,tensor_example.py,gpu_example.py,tpu_example.py}
-```
+``` -->
+
 ---
 
 ## FAQs

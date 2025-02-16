@@ -1,3 +1,4 @@
+#!/usr/bin/env python
 """
 Scipy variant of Cython command
 
@@ -7,31 +8,32 @@ Expects two arguments, infile and outfile.
 
 Other options passed through to cython command line parser.
 """
-#!/usr/bin/env python
+
+# Authors: The scikit-plots developers
+# SPDX-License-Identifier: BSD-3-Clause
+
 import os
-import os.path as op
-import sys
 import subprocess
+import sys
 
 
 def main():
-    in_fname, out_fname = (op.abspath(p) for p in sys.argv[1:3])
-
+    f_in, f_out = (os.path.abspath(p) for p in sys.argv[1:3])
     subprocess.run(
         [
-            'cython',
-            '-3',
-            '--fast-fail',
-            '--output-file',
-            out_fname,
-            '--include-dir',
+            "cython",
+            "-3",
+            "--fast-fail",
+            "--output-file",
+            f_out,
+            "--include-dir",
             os.getcwd(),
         ]
         + sys.argv[3:]
-        + [in_fname],
+        + [f_in],
         check=True,
     )
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

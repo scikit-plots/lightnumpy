@@ -1,26 +1,25 @@
-cff-version: 1.2.0  # The version of the CFF format used.
-message: "If you use this software, please cite it using the following metadata."  
-title: "lightnumpy: A lightweight version of NumPy (or similar functionality)"  
+# ---------------------------------------------------------
+# CITATION.cff file for 
+# This file provides citation information for users
+# who want to cite the library, related papers, and books.
+# Generated CITATION.cff helper in APA, MLA, Chicago, and Harvard style by github.
+# ---------------------------------------------------------
+
+cff-version: 1.2.0  
+message: "A lightweight version of NumPy or Cupy (or similar functionality)."  
+authors:  
+- family-names: "scikit-plots developers"
+title: "lightnumpy: A lightweight version of NumPy or Cupy (or similar functionality)."  
 version: "latest"  
-doi: "10.5281/zenodo.13367000"  
-date-released: "2024-10-27"  
-
-# Authors and contributors of the software project.
-authors:
-  - team: "scikit-plots developers"
-    website:  "https://scikit-plots.github.io"
-
-# Repository information
-repository-code: "https://github.com/scikit-plots/lightnumpy"
-repository-artifact: "https://zenodo.org/records/13367000"
-
-# License for your softwarelicense: "BSD-3-Clause"
-type: software
-url: "https://scikit-plots.github.io"
-
-# Keywords related to your software
-keywords:
-  - Software
-  - Python
-  - scikit-plots
-  - Machine Learning Visualization
+doi: 10.5281/zenodo.13367000  
+date-released: 2025-02-16  
+url:  "https://scikit-plots.github.io"
+preferred-citation:
+  type: software
+  authors:  
+  - family-names: "scikit-plots developers"
+  title: "lightnumpy: A lightweight version of NumPy or Cupy (or similar functionality)."  
+  version: "latest"  
+  doi: 10.5281/zenodo.13367000  
+  date-released: 2025-02-16  
+  url:  "https://scikit-plots.github.io"

@@ -3,17 +3,34 @@
 # If the file is tracked, it will return the file path.
 # If the file is not tracked, there will be no output.
 
+# custom git clones, if needed
+Git_Clones
+
+# models
+**catboost_info
+
 # Jupyter Notebook
 **.ipynb_checkpoints
 
 # scipy openblas
 **.openblas
 
+# unzip openblas
+**__MACOSX
+
+# .Rhistory is a file created by R
+**.Rhistory
+
 # Sphinx documentation
-docs/build/
+**docs/source/apis/*.rst
+**_tags/
+**auto_examples/
+**jupyterlite_contents/
+**generated/
+**build/
 
 # virtualenv
-.venv
+**.venv
 venv/
 ENV/
 
@@ -48,6 +65,8 @@ var/
 
 # PyTest
 **.pytest_cache
+**.mypy_cache
+**.ruff_cache
 
 # Unit test / coverage reports
 htmlcov/
@@ -105,4 +124,4 @@ pip-delete-this-directory.txt
 atlassian-ide-plugin.xml
 
 # OS droppings
-**.DS_Store 
+**.DS_Store

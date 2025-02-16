@@ -4,14 +4,15 @@
 
 A lightweight version of NumPy or Cupy (or similar functionality).
 
-### Install|Try LightNumPy - Doc: https://scikit-plots.github.io/dev
+### Install|Try LightNumPy - Doc: https://scikit-plots.github.io/dev/devel/index.html
 
 ## User Installation:
 
 ### Installing from source (REQUIRED OS/LIB BUILD PACKAGES)
 You can also install lightnumpy from source if you want to take advantage of the latest changes:
 ```sh
-git clone https://github.com/scikit-plots/lightnumpy.git
+# Forked repo: https://github.com/scikit-plots/lightnumpy.git
+git clone https://github.com/YOUR-USER-NAME/lightnumpy.git
 cd lightnumpy
 
 git submodule update --init  # download submodules
@@ -72,86 +73,86 @@ The easiest way to set up LightNumPy is to install it using pip with the followi
 ## LightNumPy Project Structure
 
 ```sh
-lightnumpy/  
-│  
-├── lightnumpy/                       # Core library source code  
-│   ├── __init__.py                   # Main package initializer  
+lightnumpy/
+│
+├── lightnumpy/                       # Core library source code
+│   ├── __init__.py                   # Main package initializer
 │   ├── .clang-format                 # Code formatting rules for C/C++, code formatting rules like braces placement, and spacing.
 │   ├── .clang-tidy                   # Code linting rules for C/C++, code analysis, warnings, and bug detection.
-│   ├── _core/                        # Low-level C and Higher-level C++ implementation sources  
-│   │   ├── include/                  # C and C++ headers  
-│   │   │   ├── lightnumpy            # lightnumpy core C and C++ headers 
+│   ├── _core/                        # Low-level C and Higher-level C++ implementation sources
+│   │   ├── include/                  # C and C++ headers
+│   │   │   ├── lightnumpy            # lightnumpy core C and C++ headers
 │   │   │   └── NumCpp                # NumCpp Headers [2] immutable
-│   │   └── src/                      # C and C++ source files  
+│   │   └── src/                      # C and C++ source files
 │   │       ├── dummymodule.c         # Sample Module
-│   │       ├── hello.c               # Print and string operations  
+│   │       ├── hello.c               # Print and string operations
 │   │       └── nc_version.cpp        # NumCpp Headers versions
-│   ├── _gpu_core/                    # GPU operations  
-│   │   ├── include/                  # GPU headers  
+│   ├── _gpu_core/                    # GPU operations
+│   │   ├── include/                  # GPU headers
 │   │   │   ├── lightnumpy            # lightnumpy gpu core C and C++ headers as .cuh
 │   │   │   └── numC++                # numC++ Headers
-│   │   └── src/                      # GPU source files  
-│   │       ├── gpu_ops.cu            # CUDA implementations  
-│   │       └── cuda_helpers.cu       # CUDA utility functions  
-│   ├── _tpu_core/                    # TPU operations  
-│   │   ├── include/                  # TPU headers  
-│   │   │   ├── tpu_ops.hpp           # TPU operation definitions  
-│   │   │   └── tpu_helpers.hpp       # TPU helper utilities  
-│   │   └── src/                      # TPU source files  
-│   │       ├── tpu_ops.cpp           # TPU operation implementations (via XLA)  
-│   │       └── tpu_helpers.cpp       # TPU utility functions  
+│   │   └── src/                      # GPU source files
+│   │       ├── gpu_ops.cu            # CUDA implementations
+│   │       └── cuda_helpers.cu       # CUDA utility functions
+│   ├── _tpu_core/                    # TPU operations
+│   │   ├── include/                  # TPU headers
+│   │   │   ├── tpu_ops.hpp           # TPU operation definitions
+│   │   │   └── tpu_helpers.hpp       # TPU helper utilities
+│   │   └── src/                      # TPU source files
+│   │       ├── tpu_ops.cpp           # TPU operation implementations (via XLA)
+│   │       └── tpu_helpers.cpp       # TPU utility functions
 │   ├── cy_bindings/                  # Cython implementation, Cython bridging native libraries with Python APIs
-│   │   ├── __init__.py               # Initialize the cython package  
-│   │   ├── include/                  # Cython Headers  
-│   │   └── src/                      # Cython Source files  
-│   │       └── cython_helpers.pxd    # Shared Cython declarations (optional) 
+│   │   ├── __init__.py               # Initialize the cython package
+│   │   ├── include/                  # Cython Headers
+│   │   └── src/                      # Cython Source files
+│   │       └── cython_helpers.pxd    # Shared Cython declarations (optional)
 │   ├── py_bindings/                  # Bindings for Python and native code, pybind11 bridging native libraries with Python APIs
-│   │   ├── include/                  # pybind11 Headers  
-│   │   └── src/                      # pybind11 Source files  
-│   │       ├── py_math.cpp           # Element-wise operations 
-│   │       ├── py_nc_random          # Random array functionality pybind11 with NumCpp 
-│   │       └── pybind_utils.cpp      # Helper functions for bindings   
+│   │   ├── include/                  # pybind11 Headers
+│   │   └── src/                      # pybind11 Source files
+│   │       ├── py_math.cpp           # Element-wise operations
+│   │       ├── py_nc_random          # Random array functionality pybind11 with NumCpp
+│   │       └── pybind_utils.cpp      # Helper functions for bindings
 │   ├── python_api/                   # Pure Python layer providing user-friendly interfaces for core functionality
-│   │   ├── __init__.py               # API entry point for `python_api`  
+│   │   ├── __init__.py               # API entry point for `python_api`
 │   │   ├── _utils_impl.py            # get_include for lightnumpy library's C and C++ _core Headers with NumCpp Headers [2]
 │   │   ├── array.py                  # Array class implementation and basic methods
 │   │   ├── core.py                   # Contains core array functionality
 │   │   ├── linalg.py                 # Basic linear algebra operations (e.g., dot, transpose)
-│   │   ├── operations.py             # Element-wise operations (e.g., addition, multiplication) (CPU, GPU, TPU)  
-│   │   ├── gpu_operations.py         # GPU-specific Python operations  
-│   │   ├── tpu_operations.py         # TPU-specific Python operations  
+│   │   ├── operations.py             # Element-wise operations (e.g., addition, multiplication) (CPU, GPU, TPU)
+│   │   ├── gpu_operations.py         # GPU-specific Python operations
+│   │   ├── tpu_operations.py         # TPU-specific Python operations
 │   │   └── utils.py                  # Utility functions for array manipulation
-│   └── tests/                        # Core library tests  
-│       ├── test_array.py             # Test for array module  
-│       ├── test_tensor.py            # Test for tensor module  
-│       ├── test_gpu_ops.py           # Test for GPU operations  
+│   └── tests/                        # Core library tests
+│       ├── test_array.py             # Test for array module
+│       ├── test_tensor.py            # Test for tensor module
+│       ├── test_gpu_ops.py           # Test for GPU operations
 │       ├── test_tpu_ops.py           # Test for TPU operations
-│       ├── test_cython_array.py      # Test for Cython array implementation  
-│       └── test_cython_utils.py      # Test for Cython utility functions  
-│       
-├── examples/                         # Example usage and demos  
-│   ├── array_example.py              # Example for arrays  
-│   ├── tensor_example.py             # Example for tensors  
-│   ├── gpu_example.py                # Example for GPU operations  
-│   └── tpu_example.py                # Example for TPU operations  
-│       
-├── docs/                             # Documentation  
-│   ├── index.md                      # Documentation index  
-│   ├── api/                          # API reference  
-│   │   ├── gpu_api.md                # GPU API documentation  
-│   │   └── tpu_api.md                # TPU API documentation  
-│   └── developer_guide.md            # Developer setup and guide  
-│       
-├── .github/                          # CI/CD configuration  
-│   ├── issue_templates/              # GitHub issue templates  
-│   └── workflows/                    # GitHub Actions workflows  
-│       └── ci.yml                    # Main CI pipeline configuration  
-│       
-├── meson.build                       # Meson build configuration  
+│       ├── test_cython_array.py      # Test for Cython array implementation
+│       └── test_cython_utils.py      # Test for Cython utility functions
+│
+├── examples/                         # Example usage and demos
+│   ├── array_example.py              # Example for arrays
+│   ├── tensor_example.py             # Example for tensors
+│   ├── gpu_example.py                # Example for GPU operations
+│   └── tpu_example.py                # Example for TPU operations
+│
+├── docs/                             # Documentation
+│   ├── index.md                      # Documentation index
+│   ├── api/                          # API reference
+│   │   ├── gpu_api.md                # GPU API documentation
+│   │   └── tpu_api.md                # TPU API documentation
+│   └── developer_guide.md            # Developer setup and guide
+│
+├── .github/                          # CI/CD configuration
+│   ├── issue_templates/              # GitHub issue templates
+│   └── workflows/                    # GitHub Actions workflows
+│       └── ci.yml                    # Main CI pipeline configuration
+│
+├── meson.build                       # Meson build configuration
 ├── LICENSE                           # Project license
-├── pyproject.toml                    # Python project configuration  
-└── README.md                         # Project overview  
-├── setup.cfg                         # Optional Python packaging configuration  
+├── pyproject.toml                    # Python project configuration
+└── README.md                         # Project overview
+├── setup.cfg                         # Optional Python packaging configuration
 ```
 
 
@@ -189,4 +190,3 @@ A: For most common operations, yes! It provides a familiar API to help you trans
 #### Q: Can I use lightnumpy for GPU/TPU tasks?
 
 A: Absolutely! lightnumpy has built-in support for hardware accelerators.
-

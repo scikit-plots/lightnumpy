@@ -1,3 +1,4 @@
+# https://github.com/pre-commit/pre-commit/blob/main/.pre-commit-config.yaml
 ci:
   autoupdate_schedule: 'monthly'
   autoupdate_commit_msg: 'chore: update pre-commit hooks'
@@ -24,6 +25,7 @@ repos:
     rev: v5.0.0
     hooks:
       - id: check-json  # Attempts to load all json files to verify syntax.
+        exclude: "^\\.devcontainer/.*\\.json$"
       - id: check-yaml  # Attempts to load all yaml files to verify syntax.
       - id: check-toml  # Attempts to load all TOML files to verify syntax.
       - id: check-xml   # Attempts to load all xml files to verify syntax.

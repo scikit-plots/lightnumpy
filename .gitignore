@@ -4,8 +4,8 @@
 # If the file is not tracked, there will be no output.
 
 # custom git clones, if needed
-git_clones
-Git_Clones
+!git_clones/README.md
+git_clones/*
 
 # models
 **catboost_info

@@ -15,6 +15,7 @@ You can also install lightnumpy from source if you want to take advantage of the
 git clone https://github.com/YOUR-USER-NAME/lightnumpy.git
 cd lightnumpy
 
+bash docker/script/safe_dirs.sh  # add safe directories for git
 git submodule update --init  # download submodules
 
 # pip install -r ./requirements/all.txt

@@ -1,4 +1,4 @@
 hypothesis==6.130.3
 pytest==8.3.5
-pytz==2025.1
+pytz==2025.2
 pytest-xdist

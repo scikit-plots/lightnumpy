@@ -71,7 +71,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout lightnumpy
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
         # Gets the correct commit message for pull request
         with:
           ref: ${{ github.event.pull_request.head.sha }}
@@ -171,7 +171,7 @@ jobs:
 
     steps:
       - name: Checkout Repository with all submodules recursively
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
         with:
           # Fetches all nested submodules or  submodules: true
           submodules: recursive
@@ -331,7 +331,7 @@ jobs:
           echo "CIBW_BUILD_FRONTEND=$CIBW" >> "$GITHUB_ENV"
 
       - name: Build Wheels Packages
-        uses: pypa/cibuildwheel@42728e866bbc80d544a70825bd9990b9a26f1a50  # v2.23.1
+        uses: pypa/cibuildwheel@352e01339f0a173aa2a3eb57f01492e341e83865  # v3.1.3
         env:  # Step level enviroment NAME: '', $NAME, ${{ env.NAME }}
           # Set CIBW_PRERELEASE_PYTHONS to True to build for pre-release versions of Python
           CIBW_PRERELEASE_PYTHONS: True
@@ -361,7 +361,7 @@ jobs:
           path: ./wheelhouse/*.whl
 
       - name: Conda environment creation and activation anaconda-client
-        uses: conda-incubator/setup-miniconda@505e6394dae86d6a5c7fbb6e3fb8938e3e863830 # v3.1.1
+        uses: conda-incubator/setup-miniconda@835234971496cad1653abb28a638a281cf32541f # v3.2.0
         with:
           # for installation of anaconda-client, required for upload to
           # anaconda.org
@@ -442,7 +442,7 @@ jobs:
 
     steps:
       - name: Checkout lightnumpy
-        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
         with:
           submodules: true
       # Used to push the built wheels
@@ -476,7 +476,7 @@ jobs:
           path: ./dist/*
 
       - name: Conda environment creation and activation anaconda-client
-        uses: conda-incubator/setup-miniconda@505e6394dae86d6a5c7fbb6e3fb8938e3e863830 # v3.1.1
+        uses: conda-incubator/setup-miniconda@835234971496cad1653abb28a638a281cf32541f # v3.2.0
         with:
           # for installation of anaconda-client, required for upload to
           # anaconda.org
